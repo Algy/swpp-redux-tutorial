@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
 
 import Todo from '../../components/Todo/Todo';
 import TodoDetail from '../../components/TodoDetail/TodoDetail';
@@ -6,6 +8,8 @@ import TodoDetail from '../../components/TodoDetail/TodoDetail';
 import { NavLink } from 'react-router-dom';
 
 import './TodoList.css';
+import * as actionCreators from '../../store/actions'
+import * as actionTypes from '../../store/actions/actionTypes'
 
 class TodoList extends Component {
   state = {
@@ -17,7 +21,12 @@ class TodoList extends Component {
     selectedTodo: null,
   }
 
+  componentDidMount() {
+    this.props.onGetAll()
+  }
+
   clickTodoHandler = (td) => {
+    this.props.history.push('/todos/' + td.id);
     if (this.state.selectedTodo === td) {
       this.setState({ ...this.state, selectedTodo: null });
     } else {
@@ -26,13 +35,15 @@ class TodoList extends Component {
   }
 
   render() {
-    const todos = this.state.todos.map(td => {
+    const todos = this.props.storedTodos.map(td => {
       return (
         <Todo
           key={td.id}
           title={td.title}
           done={td.done}
-          clicked={() => this.clickTodoHandler(td)}
+          clickDetail={() => this.clickTodoHandler(td)}
+          clickDone={() => this.props.onToggleTodo(td.id)}
+          clickDelete={() => this.props.onDeleteTodo(td.id)}
         />
       );
     });
@@ -59,4 +70,21 @@ class TodoList extends Component {
   }
 }
 
-export default TodoList;
+const mapStateToProps = state => {
+  return {
+    storedTodos: state.td.todos
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onToggleTodo: id => dispatch(actionCreators.toggleTodo(id)),
+    // onToggleTodo: id => dispatch({ type: actionTypes.TOGGLE_DONE, targetID: id}),
+    onDeleteTodo: id => dispatch(actionCreators.deleteTodo(id)),
+    // onDeleteTodo: id => dispatch({ type: actionTypes.DELETE_TODO, targetID: id}),
+    onGetAll: () => dispatch(actionCreators.getTodos()),
+  }
+}
+
+// export default connect(mapStateToProps, mapDispatchToProps)(TodoList);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(TodoList));
