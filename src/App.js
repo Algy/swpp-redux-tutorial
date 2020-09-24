@@ -6,20 +6,23 @@ import RealDetail from './containers/TodoList/RealDetail/RealDetail';
 import NewTodo from './containers/TodoList/NewTodo/NewTodo';
 
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
+import { ConnectedRouter } from 'connected-react-router';
 
-function App() {
+function App(props) {
   return (
-    <BrowserRouter>
+    // <BrowserRouter>
+    <ConnectedRouter history={props.history}>
       <div className="App" >
         <Switch>
-          <Route path='/todos' exact render={() => <TodoList title="My TODOs!" />} />
+          <Route path='/todos' exact render={(props) => <TodoList { ...props } title="My TODOs!" />} />
           <Route path='/todos/:id' exact component={RealDetail} />
           <Route path='/new-todo' exact component={NewTodo} />
           <Redirect exact from='/' to='todos' />
           <Route render={() => <h1>Not Found</h1>} />
         </Switch>
       </div >
-    </BrowserRouter>
+    {/* </BrowserRouter> */}
+    </ConnectedRouter>
   );
 }
 
