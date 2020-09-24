@@ -6,10 +6,11 @@ import RealDetail from './containers/TodoList/RealDetail/RealDetail';
 import NewTodo from './containers/TodoList/NewTodo/NewTodo';
 
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
+import { ConnectedRouter } from 'connected-react-router';
 
-function App() {
+function App(props) {
   return (
-    <BrowserRouter>
+    <ConnectedRouter history={props.history}>
       <div className="App" >
         <Switch>
           <Route path='/todos' exact render={() => <TodoList title="My TODOs!" />} />
@@ -18,8 +19,8 @@ function App() {
           <Redirect exact from='/' to='todos' />
           <Route render={() => <h1>Not Found</h1>} />
         </Switch>
-      </div >
-    </BrowserRouter>
+      </div>
+    </ConnectedRouter>
   );
 }
 

@@ -7,6 +7,9 @@ import { NavLink, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import * as actionTypes from '../../store/actions/actionTypes';
+import * as actionCreators from '../../store/actions/index';
+
+import axios from 'axios';
 
 import './TodoList.css';
 
@@ -17,6 +20,10 @@ class TodoList extends Component {
 
   clickTodoHandler = (td) => {
     this.props.history.push('/todos/' + td.id);
+  }
+
+  componentDidMount() {
+    this.props.onGetAll();
   }
 
 
@@ -65,9 +72,11 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onToggleTodo: (id) =>
-      dispatch({ type: actionTypes.TOGGLE_DONE, targetID: id}),
+      dispatch(actionCreators.toggleTodo(id)),
     onDeleteTodo: (id) =>
-      dispatch({ type: actionTypes.DELETE_TODO, targetID: id}),
+      dispatch(actionCreators.deleteTodo(id)),
+    onGetAll: () =>
+      dispatch(actionCreators.getTodos()),
   }
 }
 
