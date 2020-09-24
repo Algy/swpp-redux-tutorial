@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as actionCreators from '../../../store/reducers/todo';
+import * as actionCreators from '../../../store/actions/todo';
 import './RealDetail.css';
 
 class RealDetail extends Component {

@@ -11,7 +11,7 @@ import { withRouter } from 'react-router';
 
 import './TodoList.css';
 
-import * as actionCreators from '../../store/reducers/todo'
+import * as actionCreators from '../../store/actions/todo'
 
 class TodoList extends Component {
   state = {

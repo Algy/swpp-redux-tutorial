@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import './NewTodo.css';
 
 import { connect } from 'react-redux';
-import * as actionCreators from '../../../store/reducers/todo';
+import * as actionCreators from '../../../store/actions/todo';
 
 class NewTodo extends Component {
   state = {
