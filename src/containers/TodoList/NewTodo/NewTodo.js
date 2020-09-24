@@ -6,6 +6,7 @@ import './NewTodo.css';
 
 import { connect } from 'react-redux'
 import * as actionTypes from '../../../store/actions/actionTypes'
+import * as actionCreators from '../../../store/actions/index'
 
 class NewTodo extends Component {
   state = {
@@ -15,12 +16,14 @@ class NewTodo extends Component {
   }
 
   postTodoHandler = () => {
-    const data =
-      { title: this.state.title, content: this.state.content }
+    this.props.onStoreTodo(
+      this.state.title,
+      this.state.content,
+    )
+    const data = { title: this.state.title, content: this.state.content }
     alert('submitted' + data.title);
     // this.props.history.push('/todos');
     this.props.history.goBack();
-    this.props.onStoreTodo(this.state.title, this.state.content)
     this.setState({ submitted: true });
   }
 
@@ -51,7 +54,7 @@ class NewTodo extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onStoreTodo: (title, content) => dispatch({ type: actionTypes.ADD_TODO, title: title, content: content })
+    onStoreTodo: (title, content) => dispatch(actionCreators.postTodo({title: title, content: content})),
   };
 };
 export default connect(null, mapDispatchToProps)(NewTodo);

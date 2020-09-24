@@ -9,6 +9,9 @@ import './TodoList.css';
 
 import { connect } from 'react-redux';
 import * as actionTypes from '../../store/actions/actionTypes';
+import { withRouter } from 'react-router';
+import axios from 'axios';
+import * as actionCreators from '../../store/actions/index';
 
 
 class TodoList extends Component {
@@ -17,11 +20,11 @@ class TodoList extends Component {
   }
 
   clickTodoHandler = (td) => {
-    if (this.state.selectedTodo === td) {
-      this.setState({ ...this.state, selectedTodo: null });
-    } else {
-      this.setState({ ...this.state, selectedTodo: td });
-    }
+    this.props.history.push('/todos/' + td.id);
+  }
+
+  componentDidMount() {
+    this.props.onGetAll();
   }
 
   render() {
@@ -64,8 +67,9 @@ class TodoList extends Component {
 const mapStateToProps = state => { return { storedTodos: state.td.todos }};
 const mapDispatchToProps = dispatch => {
   return {
-    onToggleTodo: (id) => dispatch({ type: actionTypes.TOGGLE_DONE, targetID: id }),
-    onDeleteTodo: (id) => dispatch({ type: actionTypes.DELETE_TODO, targetID: id }),
+    onToggleTodo: (id) => dispatch(actionCreators.toggleTodo(id)),
+    onDeleteTodo: (id) => dispatch(actionCreators.deleteTodo(id)),
+    onGetAll: () => dispatch(actionCreators.getTodos()),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(TodoList);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(TodoList));
