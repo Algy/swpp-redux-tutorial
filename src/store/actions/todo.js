@@ -1,0 +1,63 @@
+// create store/actions/todo.js
+import * as actionTypes from './actionTypes';
+import axios from 'axios';
+
+export const getTodos_ = (todos) => {
+    return { type: actionTypes.GET_ALL, todos: todos };
+};
+
+export const getTodos = () => { // Why no argument? We’ll see later.
+    return dispatch => {
+        return axios.get('/api/todo/')
+        .then(res => dispatch(getTodos_(res.data)));
+    }
+}
+
+// actions/todo.js
+export const postTodo_ = (td) => {
+    return {
+        type: actionTypes.ADD_TODO,
+        id: td.id,
+        title: td.title,
+        content: td.content
+    };
+};
+
+export const postTodo = (td) => {
+    return (dispatch) => {
+        return axios.post('/api/todo/', td)
+        .then(res => {dispatch(postTodo_(res.data));
+        });
+    };
+};
+
+// actions/todo.js
+export const deleteTodo_ = (id) => {
+    return {
+        type: actionTypes.DELETE_TODO,
+        targetID: id
+    };
+};
+
+export const deleteTodo = (id) => {
+    return (dispatch) => {
+        return axios.delete('/api/todo/'+ id)
+        .then(res => {dispatch(deleteTodo_(id));
+        });
+    };
+};
+
+export const getTodo_ = (todo) => {
+    return {
+        type: actionTypes.GET_TODO,
+        target: todo
+    };
+};
+
+export const getTodo = (id) => {
+    return (dispatch) => {
+        return axios.get('/api/todo/'+ id)
+        .then(res => {dispatch(getTodo_(res.data));
+        });
+    };
+};
