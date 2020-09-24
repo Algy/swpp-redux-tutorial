@@ -7,31 +7,36 @@ import { NavLink } from 'react-router-dom';
 
 import './TodoList.css';
 
+import { connect } from 'react-redux';
+import * as actionTypes from '../../store/actions/actionTypes';
+import { withRouter } from 'react-router';
+import axios from 'axios';
+import * as actionCreators from '../../store/actions/index';
+
+
 class TodoList extends Component {
   state = {
-    todos: [
-      { id: 1, title: 'SWPP', content: 'take swpp class', done: true },
-      { id: 2, title: 'Movie', content: 'watch movie', done: false },
-      { id: 3, title: 'Dinner', content: 'eat dinner', done: false }
-    ],
     selectedTodo: null,
   }
 
   clickTodoHandler = (td) => {
-    if (this.state.selectedTodo === td) {
-      this.setState({ ...this.state, selectedTodo: null });
-    } else {
-      this.setState({ ...this.state, selectedTodo: td });
-    }
+    this.props.history.push('/todos/' + td.id);
+  }
+
+  componentDidMount() {
+    this.props.onGetAll();
   }
 
   render() {
-    const todos = this.state.todos.map(td => {
+    const todos = this.props.storedTodos.map(td => {
       return (
         <Todo
           key={td.id}
           title={td.title}
           done={td.done}
+          clickDetail={() => this.clickTodoHandler(td)}
+          clickDone={() => this.props.onToggleTodo(td.id)}
+          clickDelete={() => this.props.onDeleteTodo(td.id)} 
           clicked={() => this.clickTodoHandler(td)}
         />
       );
@@ -59,4 +64,12 @@ class TodoList extends Component {
   }
 }
 
-export default TodoList;
+const mapStateToProps = state => { return { storedTodos: state.td.todos }};
+const mapDispatchToProps = dispatch => {
+  return {
+    onToggleTodo: (id) => dispatch(actionCreators.toggleTodo(id)),
+    onDeleteTodo: (id) => dispatch(actionCreators.deleteTodo(id)),
+    onGetAll: () => dispatch(actionCreators.getTodos()),
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(TodoList));
