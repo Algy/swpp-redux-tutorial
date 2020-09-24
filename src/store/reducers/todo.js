@@ -12,12 +12,15 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
   
     // we will handle actions via switch statement
-    case actionTypes.ADD_TODO:
-    // as React, do not mutate state directly, make new object
-      const newTodo = {
-        id: state.todos.length + 1, // temporary
-        title: action.title, content: action.content, done:false
-      }
+      case actionTypes.ADD_TODO:
+        const newTodo = {
+          id: action.id, 
+          title: action.title, 
+          content: action.content, 
+          done: action.done
+        }
+        return {...state, todos: [...state.todos, newTodo]}; 
+        break;
   
       return {...state, todos: state.todos.concat(newTodo)};
       break;
@@ -44,10 +47,17 @@ const reducer = (state = initialState, action) => {
       return { ...state, todos: modified };
       break;
 
-    case actionTypes.GET_TODO:
+    /*case actionTypes.GET_TODO:
       const target = {...state.todos[action.targetID - 1]}; // temporary
       return { ...state, selectedTodo: target };
+      break;*/
+
+    case actionTypes.GET_ALL:
+      return {...state, todos: action.todos };
       break;
+    
+    case actionTypes.GET_TODO:
+       return {...state, selectedTodo: action.target };
 
     default:
       break;

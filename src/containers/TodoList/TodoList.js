@@ -6,11 +6,15 @@ import TodoDetail from '../../components/TodoDetail/TodoDetail';
 import * as actionTypes from '../../store/actions/actionTypes';
 import { NavLink } from 'react-router-dom';
 import { withRouter } from 'react-router';
-
-
+import axios from 'axios';
+import * as actionCreators from '../../store/actions/todo';
 import './TodoList.css';
 
 class TodoList extends Component {
+  componentDidMount() {
+    this.props.onGetAll();
+  }
+    
   clickTodoHandler = (td) => {
     this.props.history.push('/todos/' + td.id);
   }
@@ -58,9 +62,14 @@ const mapDispatchToProps = dispatch => {
     onSelectTodo: (selectedTodo) =>
       dispatch({ type: actionTypes.SELECT_TODO, selectedTodo: selectedTodo }),
     onToggleTodo: (id) =>
-      dispatch({ type: actionTypes.TOGGLE_DONE, targetID: id }),
+         dispatch(actionCreators.toggleTodo(id)),
+    /*onToggleTodo: (id) =>
+      dispatch({ type: actionTypes.TOGGLE_DONE, targetID: id }),*/
     onDeleteTodo: (id) =>
-      dispatch({ type: actionTypes.DELETE_TODO, targetID: id }),
+         dispatch(actionCreators.deleteTodo(id)),
+    /*onDeleteTodo: (id) =>
+      dispatch({ type: actionTypes.DELETE_TODO, targetID: id }),*/
+    onGetAll: () => dispatch(actionCreators.getTodos()),
   };
 };
 

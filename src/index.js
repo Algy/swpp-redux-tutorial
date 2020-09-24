@@ -4,8 +4,8 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
-import { createStore, combineReducers } from 'redux';
-
+import { applyMiddleware, createStore, combineReducers } from 'redux';
+import thunk from 'redux-thunk';
 import todoReducer from './store/reducers/todo';
 
 const rootReducer = combineReducers({
@@ -13,8 +13,7 @@ const rootReducer = combineReducers({
       *  * but we can merge reducers by using combineReducers for bigger project */
      td: todoReducer,
 });
-const store = createStore(rootReducer);
-
+const store = createStore(rootReducer, applyMiddleware(thunk));
 
 //const store = createStore((state = {}, action) => state);
 ReactDOM.render(<Provider store={store}><App /></Provider>,
