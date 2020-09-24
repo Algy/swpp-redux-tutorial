@@ -85,11 +85,15 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onToggleTodo: (id) =>
-      dispatch({ type: actionTypes.TOGGLE_DONE, targetID: id }),
-    onDeleteTodo: (id) =>
-      dispatch({ type: actionTypes.DELETE_TODO, targetID: id }),
+    // onToggleTodo: (id) =>
+    //   dispatch({ type: actionTypes.TOGGLE_DONE, targetID: id }),
+    // onDeleteTodo: (id) =>
+    //   dispatch({ type: actionTypes.DELETE_TODO, targetID: id }),
     onGetAll: () => dispatch(actionCreators.getTodos()),
+    onDeleteTodo: (id) =>
+      dispatch(actionCreators.deleteTodo(id)),
+    onToggleTodo: (id) =>
+      dispatch(actionCreators.toggleTodo(id)),
   };
 };
 

@@ -53,7 +53,7 @@ class NewTodo extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     onStoreTodo: (title, content) => {
-      dispatch(actionCreators.postTodo({title, content}))
+      dispatch(actionCreators.postTodo({title: title, content: content}))
     }
   };
 };
