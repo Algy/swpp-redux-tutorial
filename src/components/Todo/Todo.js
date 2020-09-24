@@ -12,6 +12,8 @@ const Todo = (props) => {
         {props.title}
       </div>
       {props.done && <div className="done-mark">&#x2713;</div>}
+      <button onClick={props.clickDone}>{(props.done) ? 'Undone' : 'Done'}</button>
+      <button onClick={props.clickDelete}>Delete this todo!</button>
     </div>
   );
 };

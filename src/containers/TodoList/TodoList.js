@@ -5,7 +5,13 @@ import TodoDetail from '../../components/TodoDetail/TodoDetail';
 
 import { NavLink } from 'react-router-dom';
 
+import { connect } from 'react-redux';
+
+import { withRouter } from 'react-router';
+
 import './TodoList.css';
+
+import * as actionCreators from '../../store/actions/todo'
 
 class TodoList extends Component {
   state = {
@@ -18,24 +24,41 @@ class TodoList extends Component {
   }
 
   clickTodoHandler = (td) => {
-    if (this.state.selectedTodo === td) {
-      this.setState({ ...this.state, selectedTodo: null });
-    } else {
-      this.setState({ ...this.state, selectedTodo: td });
-    }
+    this.props.history.push('/todos/' +td.id);
+    // if (this.state.selectedTodo === td) {
+    //   this.setState({ ...this.state, selectedTodo: null });
+    // } else {
+    //   this.setState({ ...this.state, selectedTodo: td });
+    // }
+  }
+
+  componentDidMount() {
+    this.props.onGetAll();
   }
 
   render() {
-    const todos = this.state.todos.map(td => {
+    const todos = this.props.storedTodos.map((td) => {
       return (
         <Todo
           key={td.id}
           title={td.title}
           done={td.done}
           clicked={() => this.clickTodoHandler(td)}
+          clickDetail = {() => this.clickTodoHandler(td)}
+          clickDone = {() => this.props.onToggleTodo(td.id)}
+          clickDelete = {() => this.props.onDeleteTodo(td.id)}
         />
-      );
-    });
+    )});
+    // const todos = this.state.todos.map(td => {
+    //   return (
+    //     <Todo
+    //       key={td.id}
+    //       title={td.title}
+    //       done={td.done}
+    //       clicked={() => this.clickTodoHandler(td)}
+    //     />
+    //   );
+    // });
 
     let todo = null;
     if (this.state.selectedTodo) {
@@ -59,4 +82,18 @@ class TodoList extends Component {
   }
 }
 
-export default TodoList;
+const mapStateToProps = state => {
+    return {
+      storedTodos: state.td.todos
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+      onToggleTodo: (id) => dispatch( actionCreators.toggleTodo(id) ),
+      onDeleteTodo: (id) => dispatch(actionCreators.deleteTodo(id)),
+      onGetAll: () => dispatch(actionCreators.getTodos()),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(TodoList));
