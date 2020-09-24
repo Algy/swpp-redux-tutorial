@@ -14,10 +14,10 @@ const reducer = (state = initialState, action) => {
         case actionTypes.ADD_TODO:
             // as React, do not mutate state directly, make new object
             const newTodo = {
-                id: state.todos.length + 1, // temporary
-                title: action.title, content: action.content, done:false
+                id: action.id,
+                title: action.title, content: action.content, done: action.done
             }
-            return {...state, todos: state.todos.concat(newTodo)};
+            return {...state, todos: [...state.todos, newTodo]};
         case actionTypes.DELETE_TODO:
             const deleted = state.todos.filter((todo) => {
                 return todo.id !== action.targetID;
@@ -33,8 +33,9 @@ const reducer = (state = initialState, action) => {
             });
             return { ...state, todos: modified };
         case actionTypes.GET_TODO:
-            const target = {...state.todos[action.targetID - 1]}; // temporary
-            return { ...state, selectedTodo: target };
+            return { ...state, selectedTodo: action.target };
+        case actionTypes.GET_ALL:
+            return {...state, todos: action.todos };
         default:
             break;
     }
