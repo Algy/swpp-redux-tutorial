@@ -1,12 +1,8 @@
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState={
-    todos:[
-        { id: 1, title: 'SWPP', content: 'take swpp class', done: true },
-        { id: 2, title: 'Movie', content: 'watch movie', done: false },
-        { id: 3, title: 'Dinner', content: 'eat dinner', done: false }
-      ],
-      selectedTodo:null
+    todos:[],
+    selectedTodo:null
 };
 
 const reducer=(state=initialState,action)=>{
@@ -25,7 +21,7 @@ const reducer=(state=initialState,action)=>{
                     return {...todo};
                 }
             });
-            return {...state,todos:modified}
+            return {...state,todos:modified};
         case actionTypes.DELETE_TODO:
             const deleted=state.todos.filter(todo=>{
                 return todo.id!==action.targetID;

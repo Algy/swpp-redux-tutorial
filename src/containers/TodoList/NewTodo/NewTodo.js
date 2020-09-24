@@ -34,7 +34,7 @@ class NewTodo extends Component {
         ></input>
         <label>Content</label>
         <textarea rows="4" type="text" value={this.state.content}
-          onChange={(event) => this.setState({ content: event.target.content })}
+          onChange={(event) => this.setState({ content: event.target.value })}
         >
         </textarea>
         <button onClick={() => this.postTodoHandler()}>Submit</button>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 import Todo from '../../components/Todo/Todo';
 import TodoDetail from '../../components/TodoDetail/TodoDetail';
@@ -35,22 +36,12 @@ class TodoList extends Component {
       );
     });
 
-    let todo = null;
-    if (this.props.storedTodos.selectedTodo) {
-      todo = <TodoDetail
-        title={this.state.selectedTodo.title}
-        content={this.state.selectedTodo.content}
-      />
-    }
     return (
       <div className="TodoList">
         <div className='title'>
           {this.props.title}
         </div>
-        <div className='todos'>
-          {todos}
-        </div>
-        {todo}
+        {todos}
         <NavLink to='/new-todo' exact>New Todo</NavLink>
       </div>
     )
@@ -65,7 +56,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return{
-    onGetAll:()=>dispatch(actionCreators.getTodos),
+    onGetAll:()=>dispatch(actionCreators.getTodos()),
     onToggleTodo:id=>dispatch(actionCreators.toggleTodo(id)),
     onDeleteTodo:id=>dispatch(actionCreators.deleteTodo(id)),
   };
