@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import {withRouter} from 'react-router';
 import Todo from '../../components/Todo/Todo';
 import TodoDetail from '../../components/TodoDetail/TodoDetail';
+import * as actionTypes from '../../store/actions/actionTypes';
 
 import { NavLink } from 'react-router-dom';
 
@@ -19,11 +20,7 @@ class TodoList extends Component {
   }
 
   clickTodoHandler = (td) => {
-    if (this.state.selectedTodo === td) {
-      this.setState({ ...this.state, selectedTodo: null });
-    } else {
-      this.setState({ ...this.state, selectedTodo: td });
-    }
+    this.props.history.push(`/todos/${td.id}`)
   }
 
   render() {
@@ -34,6 +31,9 @@ class TodoList extends Component {
           title={td.title}
           done={td.done}
           clicked={() => this.clickTodoHandler(td)}
+          clickDetail={() => this.clickTodoHandler(td)}
+          clickDone={() => this.props.onToggleTodo(td.id)}
+          clickDelete={() => this.props.onDeleteTodo(td.id)}
         />
       );
     });
@@ -67,15 +67,13 @@ const mapStateToProps = state => { //global state
     //td acts like a namespace
   };
 }
-/*
+
 const mapDispatchToProps = dispatch => {
   return {
-    onToggleTodo: (id) =>
-      dispatch({ type: actionTypes.TOGGLE_DONE, targetID: id }),
-    onDeleteTodo: (id) =>
-      dispatch({ type: actionTypes.DELETE_TODO, targetID: id }),
+    onToggleTodo: (id) => dispatch({ type: actionTypes.TOGGLE_DONE, targetID: id }),
+    onDeleteTodo: (id) =>  dispatch({ type: actionTypes.DELETE_TODO, targetID: id }),
   }
 }
-*/
 
-export default connect(mapStateToProps, null)(TodoList);
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(TodoList));

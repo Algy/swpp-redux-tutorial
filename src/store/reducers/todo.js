@@ -20,20 +20,20 @@ const reducer = (state = initialState, action) => {
       // state.todos.push(newTodo);//Bad!!
       return { ...state, todos: [...state.todos,newTodo] };
       // concat has the same meaning
-    case actionTypes.DELETE_TODO:
-      const deletedTodos = state.todos.filter((todo) => {
-        return todo.id !== action.targetID;
-      });
-      return { ...state, todos: deletedTodos };
     case actionTypes.TOGGLE_DONE:
-      const modified = state.todos.map((todo) => {
-        if (todo.id === action.targetID) {
-          return { ...todo, done: !todo.done };
+      const modified = state.todos.map((td) => {
+        if (td.id === action.targetID) {
+          return { ...td, done: !td.done };
         } else {
-          return { ...todo };
+          return { ...td };
         }
       });
       return { ...state, todos: modified };
+    case actionTypes.DELETE_TODO:
+      const deletedTodos = state.todos.filter((todo) => {
+          return todo.id !== action.targetID;
+      });
+      return { ...state, todos: deletedTodos };
     case actionTypes.GET_TODO:
       const target = { ...state.todos[action.targetID - 1] };
       return { ...state, selectedTodo: target };
