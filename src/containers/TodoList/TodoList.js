@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import Todo from '../../components/Todo/Todo';
 import TodoDetail from '../../components/TodoDetail/TodoDetail';
@@ -26,7 +27,7 @@ class TodoList extends Component {
   }
 
   render() {
-    const todos = this.state.todos.map(td => {
+    const todos = this.props.storedTodos.map(td => {
       return (
         <Todo
           key={td.id}
@@ -59,4 +60,22 @@ class TodoList extends Component {
   }
 }
 
-export default TodoList;
+//func bringing info (first param)
+const mapStateToProps = state => { //global state 
+  return {
+    storedTodos: state.td.todos,
+    //td acts like a namespace
+  };
+}
+/*
+const mapDispatchToProps = dispatch => {
+  return {
+    onToggleTodo: (id) =>
+      dispatch({ type: actionTypes.TOGGLE_DONE, targetID: id }),
+    onDeleteTodo: (id) =>
+      dispatch({ type: actionTypes.DELETE_TODO, targetID: id }),
+  }
+}
+*/
+
+export default connect(mapStateToProps, null)(TodoList);
