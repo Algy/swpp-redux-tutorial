@@ -41,12 +41,14 @@ class TodoList extends Component {
     });
 
     let todo = null;
+    /*
     if (this.state.selectedTodo) {
       todo = <TodoDetail
         title={this.state.selectedTodo.title}
         content={this.state.selectedTodo.content}
       />
     }
+    */
     return (
       <div className="TodoList">
         <div className='title'>
