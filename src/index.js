@@ -20,7 +20,7 @@ const store = createStore(rootReducer,
     applyMiddleware(thunk, routerMiddleware(history))); //TODO
 
 ReactDOM.render(
-<Provider store={store}><App /></Provider>,
+<Provider store={store}><App history={history} /></Provider>,
 document.getElementById('root')
 );
 

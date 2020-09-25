@@ -14,7 +14,6 @@ class NewTodo extends Component {
   state = {
     title: '',
     content: '',
-    submitted: false
   }
 
   postTodoHandler = () => {
@@ -24,10 +23,6 @@ class NewTodo extends Component {
   }
 
   render() {
-    let redirect = null;
-    if (this.state.submitted) {
-      return <Redirect to='/todos' />
-    }
     return (
       <div className="NewTodo">
         <h1>Add a New Todo!</h1>

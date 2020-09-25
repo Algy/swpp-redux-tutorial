@@ -9,7 +9,7 @@ const initialState = {
 };
 const reducer = (state = initialState, action) => {
     switch(action.type){
-        //we will handle actions via swithc statement
+        //we will handle actions via switch statement
         case actionTypes.ADD_TODO:
             const newTodo={
             //as React, do not mutate state directly, make new object
