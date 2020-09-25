@@ -35,8 +35,11 @@ const reducer = (state = initialState, action) => {
       });
       return { ...state, todos: deletedTodos };
     case actionTypes.GET_TODO:
+      /*
       const target = { ...state.todos[action.targetID - 1] };
-      return { ...state, selectedTodo: target };
+      return { ...state, selectedTodo: target };*/
+      const selectedTodo = state.todos.find(td=> td.id===action.targetID);
+      return {...state, selectedTodo};
     default:
       break;
   }

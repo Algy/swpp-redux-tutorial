@@ -5,7 +5,10 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
 
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware, compose } from 'redux';	
+//import thunk from 'redux-thunk';	
+//import { connectRouter, routerMiddleware } from 'connected-react-router';	
+import { createBrowserHistory } from 'history';
 import todoReducer from './store/reducers/todo';
 
 const rootReducer = combineReducers({

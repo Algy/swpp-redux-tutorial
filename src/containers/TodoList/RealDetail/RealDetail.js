@@ -2,8 +2,21 @@ import React, { Component } from 'react';
 
 import './RealDetail.css';
 
+import { connect } from 'react-redux';
+import * as actionTypes from '../../../store/actions/actionTypes';
+
 class RealDetail extends Component {
+
+  componentDidMount() {
+    this.props.onGetTodo(parseInt(this.props.match.params.id));
+  }
+
   render() {
+    let content = '', title='';
+    if (this.props.selectedTodo) {
+      title = this.props.selectedTodo.title;
+      content = this.props.selectedTodo.content;
+    }
     return (
       <div className="RealDetail" >
         <div className="row">
@@ -11,6 +24,7 @@ class RealDetail extends Component {
             Name:
         </div>
           <div className="right">
+            {title}
           </div>
         </div>
         <div className="row">
@@ -18,6 +32,7 @@ class RealDetail extends Component {
             Content:
         </div>
           <div className="right">
+            {content}
           </div>
         </div>
       </div>
@@ -25,4 +40,17 @@ class RealDetail extends Component {
   }
 };
 
-export default RealDetail;
+const mapStateToProps = state => {
+  return {
+    selectedTodo: state.td.selectedTodo,
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onGetTodo: id =>
+      dispatch({ type: actionTypes.GET_TODO, targetID: id }),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(RealDetail);

@@ -11,24 +11,14 @@ class NewTodo extends Component {
   state = {
     title: '',
     content: '',
-    submitted: false
   }
 
   postTodoHandler = () => {
-    const data =
-      { title: this.state.title, content: this.state.content }
-    this.props.onStoreTodo(this.state.title,this.state.content);
-      alert('submitted' + data.title);
-    // this.props.history.push('/todos');
-    this.props.history.goBack();
-    this.setState({ submitted: true });
+    this.props.onStoreTodo(this.state.title, this.state.content);
+    this.props.history.push('/todos');
   }
 
   render() {
-    let redirect = null;
-    if (this.state.submitted) {
-      redirect = <Redirect to='/todos' />
-    }
     return (
       <div className="NewTodo">
         <h1>Add a New Todo!</h1>
