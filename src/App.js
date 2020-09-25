@@ -1,15 +1,16 @@
 import React from 'react';
 import './App.css';
-
 import TodoList from './containers/TodoList/TodoList';
 import RealDetail from './containers/TodoList/RealDetail/RealDetail';
 import NewTodo from './containers/TodoList/NewTodo/NewTodo';
 
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 
-function App() {
+import { ConnectedRouter } from 'connected-react-router';
+
+function App(props) {
   return (
-    <BrowserRouter>
+    <ConnectedRouter history = {props.history}>
       <div className="App" >
         <Switch>
           <Route path='/todos' exact render={() => <TodoList title="My TODOs!" />} />
@@ -19,8 +20,8 @@ function App() {
           <Route render={() => <h1>Not Found</h1>} />
         </Switch>
       </div >
-    </BrowserRouter>
+    </ConnectedRouter>
   );
 }
-
-export default App;
+ 
+export default App; 
