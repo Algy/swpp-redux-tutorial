@@ -1,30 +1,32 @@
 import React, { Component } from 'react';
 
-import { Redirect } from 'react-router-dom';
+ 
+import { connect } from 'react-redux';
+import * as actionCreators from '../../../store/actions/index';
 
 import './NewTodo.css';
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onStoreTodo: (title, content) => 
+      dispatch(
+        actionCreators.postTodo({title: title, content: content})
+      ),
+  };
+};
 
 class NewTodo extends Component {
   state = {
     title: '',
     content: '',
-    submitted: false
   }
 
   postTodoHandler = () => {
-    const data =
-      { title: this.state.title, content: this.state.content }
-    alert('submitted' + data.title);
-    // this.props.history.push('/todos');
-    this.props.history.goBack();
-    this.setState({ submitted: true });
+    this.props.onStoreTodo(this.state.title, this.state.content);
+
   }
 
   render() {
-    let redirect = null;
-    if (this.state.submitted) {
-      redirect = <Redirect to='/todos' />
-    }
     return (
       <div className="NewTodo">
         <h1>Add a New Todo!</h1>
@@ -45,4 +47,4 @@ class NewTodo extends Component {
   }
 }
 
-export default NewTodo;
+export default connect(null, mapDispatchToProps)(NewTodo);
