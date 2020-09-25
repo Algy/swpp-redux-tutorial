@@ -1,13 +1,21 @@
 import React, { Component } from 'react';
-
+import axios from 'axios';
 import Todo from '../../components/Todo/Todo';
 import TodoDetail from '../../components/TodoDetail/TodoDetail';
 
+import { withRouter } from 'react-router';
+import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
+import * as actionTypes from '../../store/actions/actionTypes';
 import './TodoList.css';
 
 class TodoList extends Component {
+  componentDidMount() {
+    axios.get("/api/todo")
+    .then(result => console.log(result.data))
+    .catch(error => console.error(`Oops! Error occurred!! ${error}`))
+  }
   state = {
     todos: [
       { id: 1, title: 'SWPP', content: 'take swpp class', done: true },
@@ -18,21 +26,20 @@ class TodoList extends Component {
   }
 
   clickTodoHandler = (td) => {
-    if (this.state.selectedTodo === td) {
-      this.setState({ ...this.state, selectedTodo: null });
-    } else {
-      this.setState({ ...this.state, selectedTodo: td });
-    }
-  }
+    this.props.history.push('/todos/' + td.id); }
+  
 
   render() {
-    const todos = this.state.todos.map(td => {
+    const todos = this.props.storedTodos.map(td => {
       return (
         <Todo
           key={td.id}
           title={td.title}
           done={td.done}
           clicked={() => this.clickTodoHandler(td)}
+          clickDetail={() => this.clickTodoHandler(td)}
+          clickDone={() => this.props.onToggleTodo(td.id)}
+          clickDelete={() => this.props.onDeleteTodo(td.id)}
         />
       );
     });
@@ -59,4 +66,18 @@ class TodoList extends Component {
   }
 }
 
-export default TodoList;
+const mapStateToProps = state => {
+  return {
+    storedTodos: state.td.todos
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onToggleTodo: (id) => dispatch({ type: actionTypes.TOGGLE_DONE, targetID: id }),
+    onDeleteTodo: (id) => dispatch({ type: actionTypes.DELETE_TODO, targetID: id }),
+    onGetAll: () => dispatch(actionCreators.getTodos()),
+  };
+}; // don’t forget import * as actionTypes from ‘../../store/actions/actionTypes’;
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(TodoList));
