@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+// import { Redirect } from 'react-router-dom';
 import './NewTodo.css';
 
 import { connect } from 'react-redux';
-import * as actionTypes from '../../../store/actions/actionTypes';
+import * as actionCreators from '../../../store/actions/index';
 
 const mapDispatchToProps = dispatch => {
   return {
     onStoreTodo: (title, content) => {
-      return dispatch({ type: actionTypes.ADD_TODO, title: title, content: content });
+      return dispatch(actionCreators.postTodo({title: title, content: content}));
     }
   };
 };
@@ -22,21 +22,21 @@ class NewTodo extends Component {
   }
 
   postTodoHandler = () => {
-    const data =
-      { title: this.state.title, content: this.state.content }
-    alert('submitted' + data.title);
+    // const data =
+    //   { title: this.state.title, content: this.state.content }
+    // alert('submitted' + data.title);
     // this.props.history.push('/todos');
     this.props.history.goBack();
     this.props.onStoreTodo(this.state.title, this.state.content);
-    this.setState({ submitted: true });
+    // this.setState({ submitted: true });
   }
 
   render() {
-    let redirect = null;
-    if (this.state.submitted) {
-      redirect = <Redirect to='/todos' />
-      // return redirect;
-    }
+    // let redirect = null;
+    // if (this.state.submitted) {
+    //   redirect = <Redirect to='/todos' />
+    //   // return redirect;
+    // }
     return (
       <div className="NewTodo">
         <h1>Add a New Todo!</h1>

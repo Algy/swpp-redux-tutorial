@@ -11,10 +11,10 @@ const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.ADD_TODO:
             const newTodo = {
-                id: state.todos.length + 1,
+                id: action.id,
                 title: action.title,
                 content: action.content,
-                done: false
+                done: action.done
             } 
             return {...state, todos: [...state.todos, newTodo]};
         case actionTypes.DELETE_TODO:
@@ -23,12 +23,9 @@ const reducer = (state = initialState, action) => {
             })
             return { ...state, todos: deleted };
         case actionTypes.GET_ALL:
-            break;
+            return {...state, todos: action.todos };
         case actionTypes.GET_TODO:
-            const target = state.todos.find((todo) => {
-                return todo.id === action.targetId;
-            });
-            return { ...state, selectedTodo: target };
+            return { ...state, selectedTodo: action.target };
         case actionTypes.TOGGLE_DONE:
             const modified = state.todos.map((todo) => {
                 if (todo.id === action.targetId) {
