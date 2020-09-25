@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
-
+import thunk from 'redux-thunk';
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';	
 //import thunk from 'redux-thunk';	
 //import { connectRouter, routerMiddleware } from 'connected-react-router';	
@@ -16,7 +16,7 @@ const rootReducer = combineReducers({
   });
   
 
-const store = createStore(rootReducer);
+const store = createStore(rootReducer,applyMiddleware(thunk));
 
 
 

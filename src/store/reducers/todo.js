@@ -13,12 +13,12 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.ADD_TODO:
       const newTodo = {
-        id: state.todos.length + 1,
-        title: action.title, content: action.content,
-        done: false
+        id: action.id,
+        title: action.title,
+        content: action.content,
+        done: action.done,
       };
-      // state.todos.push(newTodo);//Bad!!
-      return { ...state, todos: [...state.todos,newTodo] };
+      return { ...state, todos: state.todos.concat(newTodo) };
       // concat has the same meaning
     case actionTypes.TOGGLE_DONE:
       const modified = state.todos.map((td) => {
@@ -35,11 +35,9 @@ const reducer = (state = initialState, action) => {
       });
       return { ...state, todos: deletedTodos };
     case actionTypes.GET_TODO:
-      /*
-      const target = { ...state.todos[action.targetID - 1] };
-      return { ...state, selectedTodo: target };*/
-      const selectedTodo = state.todos.find(td=> td.id===action.targetID);
-      return {...state, selectedTodo};
+      return { ...state, selectedTodo: action.target };
+    case actionTypes.GET_ALL:
+      return { ...state, todos: action.todos };
     default:
       break;
   }

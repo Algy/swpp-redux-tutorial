@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import { Redirect } from 'react-router-dom';
 import * as actionTypes from '../../../store/actions/actionTypes';
+import * as actionCreators from '../../../store/actions/index';
 //all of them are inside actionTypes
 
 import './NewTodo.css';
@@ -15,7 +16,6 @@ class NewTodo extends Component {
 
   postTodoHandler = () => {
     this.props.onStoreTodo(this.state.title, this.state.content);
-    this.props.history.push('/todos');
   }
 
   render() {
@@ -42,10 +42,7 @@ class NewTodo extends Component {
 const mapDispatchToProps = dispatch => {
   return {
     onStoreTodo: (title, content) =>
-      dispatch({ 
-        type: actionTypes.ADD_TODO, 
-        title: title, 
-        content: content, }),
+      dispatch(actionCreators.postTodo({ title: title, content: content })),
   }
 };
 
