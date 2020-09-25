@@ -5,11 +5,20 @@ import TodoList from "./containers/TodoList/TodoList";
 import RealDetail from "./containers/TodoList/RealDetail/RealDetail";
 import NewTodo from "./containers/TodoList/NewTodo/NewTodo";
 
+<<<<<<< HEAD
 import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
+=======
+import { Route, Redirect, Switch } from "react-router-dom";
+import { ConnectedRouter } from "connected-react-router";
+>>>>>>> http-request
 
-function App() {
+function App(props) {
   return (
+<<<<<<< HEAD
     <BrowserRouter>
+=======
+    <ConnectedRouter history={props.history}>
+>>>>>>> http-request
       <div className="App">
         <Switch>
           <Route
@@ -23,7 +32,11 @@ function App() {
           <Route render={() => <h1>Not Found</h1>} />
         </Switch>
       </div>
+<<<<<<< HEAD
     </BrowserRouter>
+=======
+    </ConnectedRouter>
+>>>>>>> http-request
   );
 }
 

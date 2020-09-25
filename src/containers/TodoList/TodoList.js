@@ -1,11 +1,15 @@
 import React, { Component } from "react";
 
 import Todo from "../../components/Todo/Todo";
+<<<<<<< HEAD
 import TodoDetail from "../../components/TodoDetail/TodoDetail";
+=======
+>>>>>>> http-request
 
 import { NavLink } from "react-router-dom";
 
 import "./TodoList.css";
+<<<<<<< HEAD
 import { connect } from "react-redux";
 
 class TodoList extends Component {
@@ -24,6 +28,21 @@ class TodoList extends Component {
     } else {
       this.setState({ ...this.state, selectedTodo: td });
     }
+=======
+
+import { connect } from "react-redux";
+import { withRouter } from "react-router";
+
+import * as actionCreators from "../../store/actions/index";
+
+class TodoList extends Component {
+  componentDidMount() {
+    this.props.onGetAll();
+  }
+
+  clickTodoHandler = (td) => {
+    this.props.history.push("/todos/" + td.id);
+>>>>>>> http-request
   };
 
   render() {
@@ -33,11 +52,14 @@ class TodoList extends Component {
           key={td.id}
           title={td.title}
           done={td.done}
-          clicked={() => this.clickTodoHandler(td)}
+          clickDetail={() => this.clickTodoHandler(td)}
+          clickDone={() => this.props.onToggleTodo(td.id)}
+          clickDelete={() => this.props.onDeleteTodo(td.id)}
         />
       );
     });
 
+<<<<<<< HEAD
     let todo = null;
     if (this.state.selectedTodo) {
       todo = (
@@ -52,6 +74,12 @@ class TodoList extends Component {
         <div className="title">{this.props.title}</div>
         <div className="todos">{todos}</div>
         {todo}
+=======
+    return (
+      <div className="TodoList">
+        <div className="title">{this.props.title}</div>
+        {todos}
+>>>>>>> http-request
         <NavLink to="/new-todo" exact>
           New Todo
         </NavLink>
@@ -65,4 +93,20 @@ const mapStateToProps = (state) => {
     storedTodos: state.td.todos,
   };
 };
+<<<<<<< HEAD
 export default connect(mapStateToProps, null)(TodoList);
+=======
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onToggleTodo: (id) => dispatch(actionCreators.toggleTodo(id)),
+    onDeleteTodo: (id) => dispatch(actionCreators.deleteTodo(id)),
+    onGetAll: () => dispatch(actionCreators.getTodos()),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(TodoList));
+>>>>>>> http-request
