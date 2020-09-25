@@ -8,6 +8,8 @@ import NewTodo from './containers/TodoList/NewTodo/NewTodo';
 import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 
 function App() {
+  // /todos/1
+  // /todos/13
   return (
     <BrowserRouter>
       <div className="App" >
