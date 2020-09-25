@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
+
+import * as actionCreators from '../../../store/actions/index';
 
 import { Redirect } from 'react-router-dom';
 
@@ -12,19 +15,18 @@ class NewTodo extends Component {
   }
 
   postTodoHandler = () => {
-    const data =
-      { title: this.state.title, content: this.state.content }
-    alert('submitted' + data.title);
+    //const data =
+    //  { title: this.state.title, content: this.state.content }
+    //alert('submitted\n' + data.title + " " + data.content);
     // this.props.history.push('/todos');
-    this.props.history.goBack();
-    this.setState({ submitted: true });
+    //this.props.history.goBack();
+    this.props.onStoreTodo(this.state.title, this.state.content);
   }
 
   render() {
-    let redirect = null;
-    if (this.state.submitted) {
+    /*if (this.state.submitted) {
       redirect = <Redirect to='/todos' />
-    }
+    }*/
     return (
       <div className="NewTodo">
         <h1>Add a New Todo!</h1>
@@ -36,7 +38,7 @@ class NewTodo extends Component {
         ></input>
         <label>Content</label>
         <textarea rows="4" type="text" value={this.state.content}
-          onChange={(event) => this.setState({ content: event.target.content })}
+          onChange={(event) => this.setState({ content: event.target.value })}
         >
         </textarea>
         <button onClick={() => this.postTodoHandler()}>Submit</button>
@@ -45,4 +47,11 @@ class NewTodo extends Component {
   }
 }
 
-export default NewTodo;
+const mapDispatchToProps = dispatch => {
+  return {
+    onStoreTodo: (title, content) =>
+      dispatch(actionCreators.postTodo({title: title, content: content})),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(NewTodo);
