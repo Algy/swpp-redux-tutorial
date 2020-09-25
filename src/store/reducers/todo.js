@@ -13,14 +13,13 @@ const reducer = (state = initialState, action) => {
 	switch (action.type) {
     // we will handle actions via switch statement
 		case actionTypes.ADD_TODO:
-		// as React, do not mutate state directly, make new object
-			const newTodo = {
-				id: state.todos.length + 1, // temporary
-				title: action.title,
-				content: action.content,
-				done: false
-			}
-			return {...state, todos: [...state.todos, newTodo]};
+				const newTodo = {
+					id: action.id,
+					title: action.title,
+					content: action.content,
+					done: action.done
+				}
+				return {...state, todos: [...state.todos, newTodo]};
 
 		case actionTypes.DELETE_TODO:
 			const deleted = state.todos.filter((todo) => {
@@ -39,8 +38,10 @@ const reducer = (state = initialState, action) => {
 			return { ...state, todos: modified };
 
 			case actionTypes.GET_TODO:
-				const target = state.todos.find(td => td.id === action.targetID); // temporary
-				return { ...state, selectedTodo: target };
+				return {...state, selectedTodo: action.target };
+
+			case actionTypes.GET_ALL:
+				return {...state, todos: action.todos };
 
 		default:
 			break;
