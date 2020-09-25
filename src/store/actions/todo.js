@@ -1,16 +1,15 @@
-import * as actionTypes from './actionTypes';
-import axios from 'axios';
+import * as actionTypes from "./actionTypes";
+import axios from "axios";
 
-import { push } from 'connected-react-router';
+import { push } from "connected-react-router";
 
 export const getTodos_ = (todos) => {
   return { type: actionTypes.GET_ALL, todos: todos };
 };
 
 export const getTodos = () => {
-  return dispatch => {
-    return axios.get('/api/todo')
-      .then(res => dispatch(getTodos_(res.data)));
+  return (dispatch) => {
+    return axios.get("/api/todo").then((res) => dispatch(getTodos_(res.data)));
   };
 };
 
@@ -19,11 +18,10 @@ export const getTodo_ = (todo) => {
 };
 
 export const getTodo = (id) => {
-  return dispatch => {
-    return axios.get('/api/todo/' + id)
-      .then(res => {
-        dispatch(getTodo_(res.data))
-      });
+  return (dispatch) => {
+    return axios.get("/api/todo/" + id).then((res) => {
+      dispatch(getTodo_(res.data));
+    });
   };
 };
 
@@ -38,38 +36,39 @@ export const postTodo_ = (td) => {
 
 export const postTodo = (td) => {
   return (dispatch) => {
-    return axios.post('/api/todo/', td)
-      .then(res => {
-        dispatch(postTodo_(res.data));
-        dispatch(push('/todos/'));
-      });
+    return axios.post("/api/todo/", td).then((res) => {
+      dispatch(postTodo_(res.data));
+      dispatch(push("/todos/"));
+    });
   };
 };
 
 export const deleteTodo_ = (id) => {
   return {
     type: actionTypes.DELETE_TODO,
-    targetID: id
+    targetID: id,
   };
 };
 
 export const deleteTodo = (id) => {
-  return dispatch => {
-    return axios.delete('/api/todo/' + id)
-      .then(res => dispatch(deleteTodo_(id)));
+  return (dispatch) => {
+    return axios
+      .delete("/api/todo/" + id)
+      .then((res) => dispatch(deleteTodo_(id)));
   };
 };
 
 export const toggleTodo_ = (id) => {
   return {
     type: actionTypes.TOGGLE_DONE,
-    targetID: id
+    targetID: id,
   };
 };
 
 export const toggleTodo = (id) => {
-  return dispatch => {
-    return axios.put('/api/todo/' + id)
-      .then(res => dispatch(toggleTodo_(id)));
+  return (dispatch) => {
+    return axios
+      .put("/api/todo/" + id)
+      .then((res) => dispatch(toggleTodo_(id)));
   };
 };
