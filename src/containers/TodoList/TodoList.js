@@ -1,7 +1,96 @@
+  
 import React, { Component } from 'react';
-
+import axios from 'axios';
 import Todo from '../../components/Todo/Todo';
 import TodoDetail from '../../components/TodoDetail/TodoDetail';
+
+import { NavLink } from 'react-router-dom';
+
+import './TodoList.css';
+
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
+import * as actionTypes from '../../store/actions/actionTypes';
+import * as actionTypes from '../../store/actions/index';
+
+class TodoList extends Component {
+  componentDidMount() {
+    this.props.onGetAll();
+  }
+
+  state = {
+    todos: [],
+    selectedTodo: null,
+  }
+
+  clickTodoHandler = (td) => {
+    this.props.history.push(this.props.match.url + '/' + td.id);
+  }
+
+  render() {
+    const todos = this.props.storedTodos.map(td => {
+      return (
+        <Todo
+          key={td.id}
+          title={td.title}
+          done={td.done}
+          clickDetail={() => this.clickTodoHandler(td)}
+          clickDone={() => this.props.onToggleTodo(td.id)}
+          clickDelete={() => this.props.onDeleteTodo(td.id)}
+        />
+      );
+    });
+
+    let todo = null;
+    /*
+    if (this.state.selectedTodo) {
+      todo = <TodoDetail
+        title={this.state.selectedTodo.title}
+        content={this.state.selectedTodo.content}
+      />
+    }
+    */
+    return (
+      <div className="TodoList">
+        <div className='title'>
+          {this.props.title}
+        </div>
+        <div className='todos'>
+          {todos}
+        </div>
+        {todo}
+        <NavLink to='/new-todo' exact>New Todo</NavLink>
+      </div>
+    )
+  }
+}
+
+const mapStateToProps = state => {
+  return {
+    storedTodos: state.td.todos,
+  };
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onToggleTodo: (id) =>
+      dispatch(actionCreators.toggleTodo(id)),
+    onDeleteTodo: (id) =>
+      dispatch(actionCreators.deleteTodo(id)),
+    onGetAll: () =>
+      dispatch(actionCreators.getTodos())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(TodoList));
+
+/*
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import {withRouter} from 'react-router';
+import Todo from '../../components/Todo/Todo';
+import TodoDetail from '../../components/TodoDetail/TodoDetail';
+import * as actionTypes from '../../store/actions/actionTypes';
 
 import { NavLink } from 'react-router-dom';
 
@@ -18,30 +107,29 @@ class TodoList extends Component {
   }
 
   clickTodoHandler = (td) => {
-    if (this.state.selectedTodo === td) {
-      this.setState({ ...this.state, selectedTodo: null });
-    } else {
-      this.setState({ ...this.state, selectedTodo: td });
-    }
+    this.props.history.push(`/todos/${td.id}`)
   }
 
   render() {
-    const todos = this.state.todos.map(td => {
+    const todos = this.props.storedTodos.map(td => {
       return (
         <Todo
           key={td.id}
           title={td.title}
           done={td.done}
           clicked={() => this.clickTodoHandler(td)}
+          clickDetail={() => this.clickTodoHandler(td)}
+          clickDone={() => this.props.onToggleTodo(td.id)}
+          clickDelete={() => this.props.onDeleteTodo(td.id)}
         />
       );
     });
 
     let todo = null;
-    if (this.state.selectedTodo) {
+    if (this.props.selectedTodo) {
       todo = <TodoDetail
-        title={this.state.selectedTodo.title}
-        content={this.state.selectedTodo.content}
+        title={this.props.selectedTodo.title}
+        content={this.props.selectedTodo.content}
       />
     }
     return (
@@ -59,4 +147,22 @@ class TodoList extends Component {
   }
 }
 
-export default TodoList;
+//func bringing info (first param)
+const mapStateToProps = state => { //global state 
+  return {
+    storedTodos: state.td.todos,
+    selectedTodo: state.td.selectedTodo,
+    //td acts like a namespace
+  };
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onToggleTodo: (id) => dispatch({ type: actionTypes.TOGGLE_DONE, targetID: id }),
+    onDeleteTodo: (id) =>  dispatch({ type: actionTypes.DELETE_TODO, targetID: id }),
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(TodoList));
+*/
