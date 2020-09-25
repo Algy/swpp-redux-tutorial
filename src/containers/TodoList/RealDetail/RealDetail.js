@@ -24,7 +24,7 @@ class RealDetail extends Component {
             Name:
         </div>
           <div className="right">
-            {this.props.selectedTodo.title}
+            {title}
           </div>
         </div>
         <div className="row">
@@ -32,7 +32,7 @@ class RealDetail extends Component {
             Content: 
         </div>
           <div className="right">
-            {this.props.selectedTodo.content}
+            {content}
           </div>
         </div>
       </div>
@@ -49,9 +49,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onGetTodo: (id) => 
-      dispatch({type: actionTypes.GET_TODO, targetID: id}),
+      // dispatch({type: actionTypes.GET_TODO, targetID: id}),
       // dispatch(actionCreators.onGetTodo(id)),
-      // dispatch(actionCreators.getTodo(id)),
+      dispatch(actionCreators.getTodo(id)),
   };
 };
 

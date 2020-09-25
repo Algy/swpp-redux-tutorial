@@ -21,7 +21,7 @@ const rootReducer = combineReducers({
 // 
 // const composeEnhancers = window.__REDUX.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 // const store = createStore(rootReducer, applyMiddleware(logger, thunk, routerMiddleware(history))) ;
-const store = createStore(rootReducer, applyMiddleware(thunk));
+const store = createStore(rootReducer, applyMiddleware(thunk, routerMiddleware(history)));
 // applyMiddleware(thunk, routerMiddleware(history))
 // store = createStore(combineReducer(rootReducer, -----)) 섞어서 사용할 수 있다. 
 //window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
