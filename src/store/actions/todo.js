@@ -8,7 +8,7 @@ export const getTodos_ = (todos) => {
 
 export const getTodos = () => {
    return dispatch => {
-    return axios.get('/api/todo/')
+    return axios.get(`/api/todo/`)
       .then(res => dispatch(getTodos_(res.data)));
    }
 };
@@ -22,7 +22,7 @@ export const deleteTodo_ = (id) => {
 
 export const deleteTodo = (id) => {
   return (dispatch) => {
-    return axios.delete('/api/todo/' + id)
+    return axios.delete(`/api/todo/${id}/`)
       .then(res => {
         dispatch(deleteTodo_(id));
       });
@@ -38,7 +38,7 @@ export const toggleTodo_ = (id) => {
 
 export const toggleTodo = (id) => {
   return (dispatch) => {
-    return axios.put('/api/todo/' + id)
+    return axios.put(`/api/todo/${id}/`)
       .then(res => {
         dispatch(toggleTodo_(id));
       });
@@ -58,7 +58,7 @@ export const postTodo = (td) => {
   return (dispatch) => {
     // dispatch(startPostTodo);
 
-    axios.post('/api/todo/' + td) 
+    axios.post(`/api/todo/${td}/`) 
       // .then(res => {
       //   dispatch(postTodo_(res.data));
       // });
@@ -82,7 +82,7 @@ export const getTodo_ = (todo) => {
 
 export const getTodo = (id) => {
   return (dispatch) => {
-    return axios.get('/api/todo/' + id)
+    return axios.get(`/api/todo/${id}`)
       .then(res => {
         dispatch(getTodo_(res.data));
       });

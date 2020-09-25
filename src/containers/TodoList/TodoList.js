@@ -37,7 +37,7 @@ class TodoList extends Component {
     // } else {
     //   this.setState({ ...this.state, selectedTodo: td });
     // }
-    this.props.history.push(`/todos/${td.id}`); 
+    this.props.history.push(`/todos/${td.id}/`); 
     // `/todos/${td.id}`
   }
 
