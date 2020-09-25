@@ -18,9 +18,9 @@ export const getTodo_ = (todo) => {
   return { type: actionTypes.GET_TODO, target: todo };
 };
 
-export const getTodos = () => {
+export const getTodo = (id) => {
     return dispatch => {
-      return axios.get('/api/todo')
+      return axios.get('/api/todo/' + id)
         .then(res => dispatch(getTodos_(res.data)));
     };
   };
