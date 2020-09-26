@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import './RealDetail.css';
 import * as actionCreators from '../../../store/actions/index';
-import * as actionTypes from '../../../store/actions/actionTypes';
+// import * as actionTypes from '../../../store/actions/actionTypes';
 
 class RealDetail extends Component {
   componentDidMount() {

@@ -5,7 +5,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {Provider} from 'react-redux';
 
-import {createStore, combineReducers, applyMiddleware, compose } from 'redux';
+import {createStore, combineReducers, applyMiddleware, compose} from 'redux';
 import todoReducer from './store/reducers/todo';
 import thunk from 'redux-thunk';
 import {connectRouter, routerMiddleware} from 'connected-react-router';
@@ -19,12 +19,25 @@ const rootReducer = combineReducers({
 
 // const store = createStore((state = {}, action) => state); // TODO 
 // 
-// const composeEnhancers = window.__REDUX.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const logger = store => {
+  return next => {
+    return action => {
+      console.log('[Middleware] Dispatching', action);
+      const reusult = next(action);
+      console.log('[Middleware] Next State', store.getState());
+      return reusult;
+    }
+  }
+}
+const composeEnhancers = window.__REDUX__REDUX_DEVTOOLS_EXTENSION_COMPOSE__||compose;
 // const store = createStore(rootReducer, applyMiddleware(logger, thunk, routerMiddleware(history))) ;
-const store = createStore(rootReducer, applyMiddleware(thunk, routerMiddleware(history)));
+const store = createStore(rootReducer, 
+  composeEnhancers(
+      applyMiddleware(logger, thunk, routerMiddleware(history)))
+  );
+  //  applyMiddleware(thunk, routerMiddleware(history)));
 // applyMiddleware(thunk, routerMiddleware(history))
-// store = createStore(combineReducer(rootReducer, -----)) 섞어서 사용할 수 있다. 
-//window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+// const store = createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 ReactDOM.render(
   <Provider store={store}><App history={history} /></Provider>, 

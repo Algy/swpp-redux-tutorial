@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 
 import Todo from '../../components/Todo/Todo';
-import TodoDetail from '../../components/TodoDetail/TodoDetail';
+// import TodoDetail from '../../components/TodoDetail/TodoDetail';
 
 import { NavLink } from 'react-router-dom';
 
 import './TodoList.css';
 import {connect} from 'react-redux';
-import * as actionTypes from '../../store/actions/actionTypes';
+// import * as actionTypes from '../../store/actions/actionTypes';
 import {withRouter} from 'react-router';
 import axios from 'axios';
 import * as actionCreators from '../../store/actions/index';
@@ -28,7 +28,7 @@ class TodoList extends Component {
     axios.get('/api/todo/')
       .then(result => console.log(result.data))
       .then(err => console.log(err));
-    return this.props.onGetAll();
+    this.props.onGetAll();
   }
 
   clickTodoHandler = (td) => {
@@ -48,8 +48,9 @@ class TodoList extends Component {
         <Todo
           key={td.id}
           title={td.title}
+          content={td.content}
           done={td.done}
-          clicked={() => this.clickTodoHandler(td)}
+          // clicked={() => this.clickTodoHandler(td)}
           clickDetail={() => this.clickTodoHandler(td)}
           clickDone={() => this.props.onToggleTodo(td.id)}
           clickDelete={() => this.props.onDeleteTodo(td.id)}

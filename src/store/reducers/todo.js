@@ -15,17 +15,20 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_TODO: 
       const newTodo = {
-        id: state.todos.length +1,
-        title: action.title, content:action.content, done: action.done
+        id: action.id,
+        title: action.title,
+        content:action.content,
+        done: action.done
       }
       // state.todos.push(newTodo) // BAD
       // state.todos.concat(newTodo) 뒤에 나오는 인자를 붙여서 새로운 리스트를 만들어준다 
       // 두번째 방법은 사용할 수 있다 ㅎㅎㅎㅎㅎㅎㅎㅎ 
       
-      return {...state, todos: [ ...state.todos, newTodo]};
+      return {...state, todos: state.todos.concat(newTodo)};
+      // return {...state, todos: [ ...state.todos, newTodo]};
       // action.targetID => parseInt(action.targetID)
     case DELETE_TODO:
-      const filtered = state.todos.filter(td => td.id !== action.targetID);
+      const filtered = state.todos.filter(td => {return td.id !== action.targetID});
       return {...state, todos: filtered};
 
     case TOGGLE_DONE: 

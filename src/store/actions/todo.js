@@ -1,6 +1,6 @@
 import * as actionTypes from './actionTypes';
 import axios from 'axios';
-// import {push} from 'connected-react-router';
+import {push} from 'connected-react-router';
 
 export const getTodos_ = (todos) => {
   return {type: actionTypes.GET_ALL, todos:todos};
@@ -57,12 +57,14 @@ export const postTodo_ = (td) => {
 export const postTodo = (td) => {
   return (dispatch) => {
     // dispatch(startPostTodo);
-
-    axios.post(`/api/todo/${td}/`) 
+   return axios.post('/api/todo/', td) 
       // .then(res => {
       //   dispatch(postTodo_(res.data));
       // });
-      .then(res => { dispatch(postTodo_(res.data))
+
+      .then(res => { 
+        dispatch(postTodo_(res.data));
+        dispatch(push('/todos/'));
       // .then(() => { dispatch(push('/todos'))
         // dispatch(successPostTodo(res.data));
       });
@@ -71,6 +73,7 @@ export const postTodo = (td) => {
       // });
     };
 };
+
 export const getTodo_ = (todo) => {
   return {
     type: actionTypes.GET_TODO,
@@ -82,7 +85,7 @@ export const getTodo_ = (todo) => {
 
 export const getTodo = (id) => {
   return (dispatch) => {
-    return axios.get(`/api/todo/${id}`)
+    return axios.get(`/api/todo/${id}/`)
       .then(res => {
         dispatch(getTodo_(res.data));
       });
