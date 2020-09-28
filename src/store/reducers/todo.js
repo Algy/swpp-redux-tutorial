@@ -2,21 +2,24 @@ import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
   todos: [
-    { id: 1, title: 'SWPP', content: 'take swpp class', done: true },
-    { id: 2, title: 'Movie', content: 'watch movie', done: false },
-    { id: 3, title: 'Dinner', content: 'eat dinner', done: false }
+    // { id: 1, title: 'SWPP', content: 'take swpp class', done: true },
+    // { id: 2, title: 'Movie', content: 'watch movie', done: false },
+    // { id: 3, title: 'Dinner', content: 'eat dinner', done: false }
   ],
   selectedTodo: null
 };
 
 const reducer = (state=initialState, action) => {
   switch (action.type) {
+    case actionTypes.GET_ALL:
+      return {...state, todos: action.todos};
+
     case actionTypes.ADD_TODO:
       const newTodo = {
-        id: state.todos.length + 1,
+        id: action.id,
         title: action.title,
         content: action.content,
-        done: false
+        done: action.done
       };
       return {...state, todos: [...state.todos, newTodo]};
 
@@ -33,8 +36,7 @@ const reducer = (state=initialState, action) => {
       return {...state, todos: modified};
 
     case actionTypes.GET_TODO:
-      const target = state.todos.find((td) => td.id === action.targetID);
-      return {...state, selectedTodo: target};
+      return {...state, selectedTodo: action.target};
 
     default:
       break;

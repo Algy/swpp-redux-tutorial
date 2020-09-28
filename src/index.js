@@ -6,16 +6,22 @@ import * as serviceWorker from './serviceWorker';
 
 // Redux integration
 import { Provider } from 'react-redux';
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+
+import { connectRouter, routerMiddleware } from 'connected-react-router';
+import { createBrowserHistory } from 'history';
 
 import todoReducer from './store/reducers/todo';
 
+const history = createBrowserHistory();
 const rootReducer = combineReducers({
-  td: todoReducer
+  td: todoReducer, router: connectRouter(history)
 });
-const store = createStore(rootReducer);
+const store = createStore(rootReducer,
+  applyMiddleware(thunk, routerMiddleware(history)));
 
-ReactDOM.render(<Provider store={store}><App /></Provider>,
+ReactDOM.render(<Provider store={store}><App history={history} /></Provider>,
   document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
