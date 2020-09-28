@@ -1,49 +1,48 @@
 import React, { Component } from 'react';
 
 import Todo from '../../components/Todo/Todo';
-import TodoDetail from '../../components/TodoDetail/TodoDetail';
 
 import { NavLink } from 'react-router-dom';
+import { withRouter } from 'react-router';
+
+import { connect } from 'react-redux';
+// import * as actionTypes from '../../store/actions/actionTypes';
+import * as actionCreators from '../../store/actions/index';
 
 import './TodoList.css';
 
 class TodoList extends Component {
-  state = {
-    todos: [
-      { id: 1, title: 'SWPP', content: 'take swpp class', done: true },
-      { id: 2, title: 'Movie', content: 'watch movie', done: false },
-      { id: 3, title: 'Dinner', content: 'eat dinner', done: false }
-    ],
-    selectedTodo: null,
+  componentDidMount() {
+    this.props.onGetAll();
   }
 
-  clickTodoHandler = (td) => {
-    if (this.state.selectedTodo === td) {
-      this.setState({ ...this.state, selectedTodo: null });
-    } else {
-      this.setState({ ...this.state, selectedTodo: td });
+  state = {
+    selectedTodo: null
+  };
+
+  clickTodoHandler = (id) => {
+    this.props.history.push('/todos/' + id);
+    this.props.onGetTodoDetail(id);
+  };
+
+  deleteTodoHandler = (td) => {
+    if (this.state.selectedTodo && td.id === this.state.selectedTodo.id) {
+      this.setState({...this.state, selectedTodo: null});
     }
-  }
+    this.props.onDeleteTodo(td.id);
+  };
 
   render() {
-    const todos = this.state.todos.map(td => {
+    const todos = this.props.storedTodos.map((td) => {
       return (
-        <Todo
-          key={td.id}
-          title={td.title}
-          done={td.done}
-          clicked={() => this.clickTodoHandler(td)}
-        />
+        <Todo key={td.id} title={td.title} done={td.done}
+          clickDetail={() => this.clickTodoHandler(td.id)}
+            // this.props.onGetTodoDetail(td.id)}
+          clickDone={() => this.props.onToggleTodo(td.id)}
+          clickDelete={() => this.deleteTodoHandler(td)} />
       );
     });
 
-    let todo = null;
-    if (this.state.selectedTodo) {
-      todo = <TodoDetail
-        title={this.state.selectedTodo.title}
-        content={this.state.selectedTodo.content}
-      />
-    }
     return (
       <div className="TodoList">
         <div className='title'>
@@ -52,11 +51,25 @@ class TodoList extends Component {
         <div className='todos'>
           {todos}
         </div>
-        {todo}
         <NavLink to='/new-todo' exact>New Todo</NavLink>
       </div>
     )
-  }
+  };
 }
 
-export default TodoList;
+const mapStateToProps = (state) => {
+  return {
+    storedTodos: state.td.todos
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onGetAll: () => dispatch(actionCreators.getTodos()),
+    onGetTodoDetail: (id) => dispatch(actionCreators.getTodoDetail(id)),
+    onToggleTodo: (id) => dispatch(actionCreators.toggleTodo(id)),
+    onDeleteTodo: (id) => dispatch(actionCreators.deleteTodo(id))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(TodoList));
