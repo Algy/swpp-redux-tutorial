@@ -28,6 +28,7 @@ def index(request, id=None):
     if request.method == 'POST':
         try:
             body = request.body.decode()
+            print("hello", body)
             title = json.loads(body)['title']
             content = json.loads(body)['content']
         except (KeyError, JSONDecodeError) as e:
